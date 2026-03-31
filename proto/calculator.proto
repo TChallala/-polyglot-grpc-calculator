@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package calculator;
+option go_package = "multiply-service/calculator";
+option java_multiple_files = true;
+option java_package = "com.calculator";
+option java_outer_classname = "CalculatorProto";
+
+message BinaryRequest {
+  double a = 1;
+  double b = 2;
+}
+
+message Result {
+  double result = 1;
+}
+
+service AddService {
+  rpc Add (BinaryRequest) returns (Result);
+}
+
+service SubtractService {
+  rpc Subtract (BinaryRequest) returns (Result);
+}
+
+service MultiplyService {
+  rpc Multiply (BinaryRequest) returns (Result);
+}
+
+service DivideService {
+  rpc Divide (BinaryRequest) returns (Result);
+}

@@ -1,0 +1,23 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'orchestrator'
+    static_configs:
+      - targets: ['orchestrator:9090']
+
+  - job_name: 'add-service'
+    static_configs:
+      - targets: ['add-service:9091']
+
+  - job_name: 'subtract-service'
+    static_configs:
+      - targets: ['subtract-service:9092']
+
+  - job_name: 'multiply-service'
+    static_configs:
+      - targets: ['multiply-service:9093']
+
+  - job_name: 'divide-service'
+    static_configs:
+      - targets: ['divide-service:9094']

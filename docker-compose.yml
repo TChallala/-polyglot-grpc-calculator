@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  add-service:
+    build:
+      context: .
+      dockerfile: add-service/Dockerfile
+    ports:
+      - "50051:50051"
+      - "9091:9091"
+
+  subtract-service:
+    build:
+      context: .
+      dockerfile: subtract-service/Dockerfile
+    ports:
+      - "50052:50052"
+      - "9092:9092"
+
+  multiply-service:
+    build:
+      context: .
+      dockerfile: multiply-service/Dockerfile
+    ports:
+      - "50053:50053"
+      - "9093:9093"
+
+  divide-service:
+    build:
+      context: .
+      dockerfile: divide-service/Dockerfile
+    ports:
+      - "50054:50054"
+      - "9094:9094"
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
+    ports:
+      - "3000:3000"
+      - "9090:9090"
+    environment:
+      - ADD_SERVICE_URL=add-service:50051
+      - SUBTRACT_SERVICE_URL=subtract-service:50052
+      - MULTIPLY_SERVICE_URL=multiply-service:50053
+      - DIVIDE_SERVICE_URL=divide-service:50054
+    depends_on:
+      - add-service
+      - subtract-service
+      - multiply-service
+      - divide-service
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9095:9090"
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - orchestrator
+
+
